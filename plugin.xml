@@ -1,0 +1,58 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		id="at.oneminutedistraction.phonecalllistener" version="0.0.1">
+
+	<name>Phone Call Listener</name>
+	<description>
+		This plugin allows your application to receive notification on users
+		making phone call. You are can stop the outgoing call.
+	</description>
+	<license>Apache 2.0</license>
+
+	<js-module src="www/PhoneCallListener.js" name="PhoneCallListener">
+		<clobbers target="PhoneCallListener" />
+	</js-module>
+
+	<engines>
+		<engine name="cordova" version=">=3.0.0"/>
+	</engines>
+
+	<!-- Android only -->
+	<platform name="android">
+
+		<config-file target="res/xml/config.xml" parent="/*">
+			<feature name="PhoneCallListener">
+				<param name="android-package" 
+						value="at.oneminutedistraction.phonecalllistener.PhoneCallHandlerPlugin"/>
+			</feature>
+		</config-file>
+
+		<config-file target="AndroidManifest.xml" parent="/manifest">
+			<!-- Permission to process outgoing call -->
+			<uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+		</config-file>
+
+		<config-file target="AndroidManifest.xml" parent="/manifest/application">
+			<receiver android:name="at.oneminutedistraction.phonecalllistener.OutgoingCallBroadcastReceiver">
+				<intent-filter android:priority="0">
+					<action android:name="android.intent.action.NEW_OUTGOING_CALL"/>
+				</intent-filter>
+			</receiver>
+		</config-file>
+
+		<source-file src="src/android/at/oneminutedistraction/phonecalllistener/Constants.java" 
+				target-dir="src/at/oneminutedistraction/phonecalllistener"/> 
+		<source-file src="src/android/at/oneminutedistraction/phonecalllistener/OutgoingCallBroadcastReceiver.java" 
+				target-dir="src/at/oneminutedistraction/phonecalllistener"/> 
+		<source-file src="src/android/at/oneminutedistraction/phonecalllistener/PhoneCallHandlerPlugin.java" 
+				target-dir="src/at/oneminutedistraction/phonecalllistener"/> 
+<!--
+		<source-file src="src/android/at/oneminutedistraction/phonecalllistener/XXXX.java" 
+				target-dir="src/android/at/oneminutedistraction/phonecalllistener"/> 
+-->
+
+	</platform>
+
+</plugin>
