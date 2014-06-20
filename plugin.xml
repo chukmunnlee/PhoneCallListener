@@ -52,6 +52,8 @@
 				target-dir="src/at/oneminutedistraction/phonecalllistener"/> 
 		<source-file src="src/android/at/oneminutedistraction/phonecalllistener/PhoneCallHandlerPlugin.java" 
 				target-dir="src/at/oneminutedistraction/phonecalllistener"/> 
+		<source-file src="src/android/at/oneminutedistraction/phonecalllistener/PhoneCallHandlerActivity.java" 
+				target-dir="src/at/oneminutedistraction/phonecalllistener"/> 
 <!--
 		<source-file src="src/android/at/oneminutedistraction/phonecalllistener/XXXX.java" 
 				target-dir="src/android/at/oneminutedistraction/phonecalllistener"/> 
