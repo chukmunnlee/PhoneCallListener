@@ -38,13 +38,13 @@ public class PhoneCallHandlerPlugin extends CordovaPlugin {
 
         boolean result = true;
 
-        if (METHOD_STATUS.equals(action)) {
-            if (args.length() <= 0)
-                isRegistered(callbackContext);
-            else
-                setRegister(args.getBoolean(0), callbackContext);
+        if (METHOD_IS_ENABLED.equals(action))
+            isRegistered(callbackContext);
 
-        } else
+        if (METHOD_ENABLE_CALL_INTERCEPT.equals(action))
+            setRegister(args.getBoolean(0), callbackContext);
+
+        else
             result = false;
 
         return (result);

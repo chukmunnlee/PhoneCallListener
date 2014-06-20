@@ -3,28 +3,45 @@ console.log("===== Loading PhoneCallListener.js ===");
 
 var PhoneCallListener = function() { };
 
-PhoneCallListener.prototype.status = function(val, success, failure) {
-
-	var args = (val)? [val]: [];
+PhoneCallListener.prototype.isEnabled = function(success, failure) {
 
 	if (null == failure)
 		failure = function() { };
 
 	if (!PhoneCallListener._isFunction(success)) {
-		console.log("phoneCallListener.enable: success callback must be a function");
+		console.log("phoneCallListener.enable: isEnabled callback must be a function");
 		return;
 	}
 
 	if (!PhoneCallListener._isFunction(failure)) {
-		console.log("phoneCallListener.enable: failure callback must be a function");
+		console.log("phoneCallListener.enable: isEnabled callback must be a function");
 		return;
 	}
 
 	//Make the call
-	cordova.exec(success, failure, "PhoneCallHandlerPlugin", "status", args);
+	cordova.exec(success, failure, "PhoneCallHandlerPlugin", "isEnabled", []);
 }
 
-PhoneCallListener._isFunction(f) {
+PhoneCallListener.prototype.enableCallIntercept = function(val, success, failure) {
+
+	if (null == failure)
+		failure = function() { };
+
+	if (!PhoneCallListener._isFunction(success)) {
+		console.log("phoneCallListener.enableCallIntercept: success callback must be a function");
+		return;
+	}
+
+	if (!PhoneCallListener._isFunction(failure)) {
+		console.log("phoneCallListener.enableCallIntercept: failure callback must be a function");
+		return;
+	}
+
+	//Make the call
+	cordova.exec(success, failure, "PhoneCallHandlerPlugin", "enableCallIntercept", [val]);
+}
+
+PhoneCallListener._isFunction = function(f) {
 	return ((null != f) && (typeof f == "function"));
 }
 
