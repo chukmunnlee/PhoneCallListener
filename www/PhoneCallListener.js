@@ -18,6 +18,7 @@ PhoneCallListener.prototype.status = function(val, success, failure) {
 	if (!PhoneCallListener._isFunction(failure)) {
 		console.log("phoneCallListener.enable: failure callback must be a function");
 		return;
+	}
 
 	//Make the call
 	cordova.exec(success, failure, "PhoneCallHandlerPlugin", "status", args);
