@@ -1,5 +1,9 @@
 PhoneCallListener
 =================
 
-window.plugins.phoneCallListener.enable() - true
+```javascript
+
+window.plugins.phoneCallListener.enable();
+
 window.plugins.phoneCallListener.enable(boolean, successCallback, failureCallback)
+```
