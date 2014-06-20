@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import static at.oneminutedistraction.phonecalllistener.Constants.*;
+
 
 public class OutgoingCallBroadcastReceiver extends BroadcastReceiver {
 
@@ -16,7 +18,7 @@ public class OutgoingCallBroadcastReceiver extends BroadcastReceiver {
 
         final String phone = intent.getStringExtra(Intent.EXTRA_PHONE_NUMBER);
 
-        Log.d(Constants.TAG, "Phonenumber: " + phone);
+        Log.d(TAG, "Phonenumber: " + phone);
 
         PhoneCallHandlerPlugin plugin = PhoneCallHandlerPlugin.getInstance();
 
