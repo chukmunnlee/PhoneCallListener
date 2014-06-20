@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import java.util.concurrent.Semaphore;
+
 import static at.oneminutedistraction.phonecalllistener.Constants.*;
 
 
@@ -20,7 +22,19 @@ public class OutgoingCallBroadcastReceiver extends BroadcastReceiver {
 
         Log.d(TAG, "Phonenumber: " + phone);
 
-        PhoneCallHandlerPlugin plugin = PhoneCallHandlerPlugin.getInstance();
+        Intent phoneIntent = new Intent(context, PhoneCallHandlerActivity.class);
+        phoneIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        context.startActivity(phoneIntent);
+        /*
+        Semaphore sem = new Semaphore(1);
+        phoneIntent.putExtra(PARAMS_SEMAPHORE, sem);
+
+        try {
+            sem.acquire();
+        } catch (InterruptedException e) {
+            Log.e(TAG, "sem.acquire()", e);
+        } */
+
 
     }
 }
