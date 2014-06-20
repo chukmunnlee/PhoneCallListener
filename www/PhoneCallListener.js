@@ -1,26 +1,29 @@
+
+console.log("===== Loading PhoneCallListener.js ===");
+
 var PhoneCallListener = function() { };
 
-PhoneCallListener.prototype.enable = function(val, success, failure) {
+PhoneCallListener.prototype.status = function(val, success, failure) {
 
 	var args = (val)? [val]: [];
 
 	if (null == failure)
 		failure = function() { };
 
-	if (!isFunction(success)) {
+	if (!PhoneCallListener._isFunction(success)) {
 		console.log("phoneCallListener.enable: success callback must be a function");
 		return;
 	}
 
-	if (!isFunction(failure)) {
+	if (!PhoneCallListener._isFunction(failure)) {
 		console.log("phoneCallListener.enable: failure callback must be a function");
 		return;
 
 	//Make the call
-	cordova.exec(success, failure, args);
+	cordova.exec(success, failure, "PhoneCallListener", "status", args);
 }
 
-function isFunction(f) {
+PhoneCallListener._isFunction(f) {
 	return ((null != f) && (typeof f == "function"));
 }
 

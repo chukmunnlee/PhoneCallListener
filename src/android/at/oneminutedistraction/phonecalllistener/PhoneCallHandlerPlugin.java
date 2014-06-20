@@ -32,22 +32,21 @@ public class PhoneCallHandlerPlugin extends CordovaPlugin {
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
+
         Log.d(TAG, "execute: action=" + action + ", args=" + args.toString());
 
-        switch (action) {
-            case METHOD_ENABLE:
-                if (args.length() <= 0)
-                    isRegistered(callbackContext);
-                else
-                    setRegister(args.getBoolean(0), callbackContext);
+        boolean result = true;
 
-                break;
+        if (METHOD_STATUS.equals(action)) {
+            if (args.length() <= 0)
+                isRegistered(callbackContext);
+            else
+                setRegister(args.getBoolean(0), callbackContext);
 
-            default:
-                return (false);
-        }
+        } else
+            result = false;
 
-        return (true);
+        return (result);
     }
 
     private void setRegister(boolean e, CallbackContext callbackContext) {
