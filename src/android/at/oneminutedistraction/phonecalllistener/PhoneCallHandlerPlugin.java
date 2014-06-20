@@ -12,7 +12,6 @@ import org.apache.cordova.CordovaWebView;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import static at.oneminutedistraction.phonecalllistener.Constants.*;
 
 public class PhoneCallHandlerPlugin extends CordovaPlugin {
 
@@ -33,11 +32,11 @@ public class PhoneCallHandlerPlugin extends CordovaPlugin {
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
 
-        Log.d(TAG, "execute: action=" + action + ", args=" + args.toString());
+        Log.d(Constants.TAG, "execute: action=" + action + ", args=" + args.toString());
 
         boolean result = true;
 
-        if (METHOD_STATUS.equals(action)) {
+        if (Constants.METHOD_STATUS.equals(action)) {
             if (args.length() <= 0)
                 isRegistered(callbackContext);
             else
@@ -58,15 +57,15 @@ public class PhoneCallHandlerPlugin extends CordovaPlugin {
                 ctx.registerReceiver(receiver, IntentFilter.create(Intent.ACTION_NEW_OUTGOING_CALL, String.class.getName()));
             } catch (Throwable t) {
                 //Fail quietly
-                Log.i(TAG, "Receiver re-registered");
+                Log.i(Constants.TAG, "Receiver re-registered");
             }
         else
             try {
                 ctx.unregisterReceiver(receiver);
             } catch (Throwable t) {
-                Log.i(TAG, "Receiver unregistered");
+                Log.i(Constants.TAG, "Receiver unregistered");
             }
-        callbackContext.success(VALUE_TRUE);
+        callbackContext.success(Constants.VALUE_TRUE);
     }
 
     private void isRegistered(CallbackContext callbackContext) {
@@ -76,11 +75,11 @@ public class PhoneCallHandlerPlugin extends CordovaPlugin {
             getContext().registerReceiver(receiver
                     , IntentFilter.create(Intent.ACTION_NEW_OUTGOING_CALL, String.class.getName()));
         } catch (Throwable t) {
-            callbackContext.success(VALUE_TRUE);
+            callbackContext.success(Constants.VALUE_TRUE);
             return;
         }
         getContext().unregisterReceiver(receiver);
-        callbackContext.success(VALUE_FALSE);
+        callbackContext.success(Constants.VALUE_FALSE);
     }
 
     public static PhoneCallHandlerPlugin getInstance() {
