@@ -24,7 +24,7 @@
 	<platform name="android">
 
 		<config-file target="res/xml/config.xml" parent="/*">
-			<feature name="PhoneCallListener">
+			<feature name="PhoneCallHandlerPlugin">
 				<param name="android-package" 
 						value="at.oneminutedistraction.phonecalllistener.PhoneCallHandlerPlugin"/>
 			</feature>

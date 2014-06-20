@@ -20,7 +20,7 @@ PhoneCallListener.prototype.status = function(val, success, failure) {
 		return;
 
 	//Make the call
-	cordova.exec(success, failure, "PhoneCallListener", "status", args);
+	cordova.exec(success, failure, "PhoneCallHandlerPlugin", "status", args);
 }
 
 PhoneCallListener._isFunction(f) {
