@@ -42,7 +42,7 @@
 				</intent-filter>
 			</receiver>
 			<activity android:name="at.oneminutedistraction.phonecalllistener.PhoneCallHandlerActivity" 
-					android:theme="@style/Theme.Transparent" android:launchMode="singleTask" />
+					android:launchMode="singleTask" />
 
 		</config-file>
 
