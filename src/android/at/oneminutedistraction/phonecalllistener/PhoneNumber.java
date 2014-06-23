@@ -1,9 +1,13 @@
 package at.oneminutedistraction.phonecalllistener;
 
+import java.io.Serializable;
+
 /**
  * Created by cmlee on 6/23/14.
  */
-public class PhoneNumber {
+public class PhoneNumber implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private String id;
     private String phoneNumber;

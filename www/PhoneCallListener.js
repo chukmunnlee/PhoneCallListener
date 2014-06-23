@@ -54,10 +54,10 @@ PhoneCallListener.prototype.getAllPhoneNumbers = function(success, failure) {
 	}
 
 	//Make the call
-	cordova.exec(success, failure, "PhoneCallHandlerPlugin", "removePhoneNumber", []);
+	cordova.exec(success, failure, "PhoneCallHandlerPlugin", "getAllPhoneNumbers", []);
 }
 
-PhoneCallListener.prototype.isRegistered = function(success, failure) {
+PhoneCallListener.prototype.isRegistered = function(val, success, failure) {
 
 	if (null == failure)
 		failure = function() { };
@@ -73,7 +73,7 @@ PhoneCallListener.prototype.isRegistered = function(success, failure) {
 	}
 
 	//Make the call
-	cordova.exec(success, failure, "PhoneCallHandlerPlugin", "removePhoneNumber", []);
+	cordova.exec(success, failure, "PhoneCallHandlerPlugin", "isRegistered", [val]);
 }
 
 PhoneCallListener._isFunction = function(f) {

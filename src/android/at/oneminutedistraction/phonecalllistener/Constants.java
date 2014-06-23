@@ -11,6 +11,8 @@ public class Constants {
     public static final String METHOD_IS_REGISTERED = "isRegistered";
 
     public static final String VALUE_OVERWRITE = "overwrite";
+    public static final String VALUE_PHONENUMBER = "phonenumber";
+    public static final String VALUE_RESULT = "result";
 
     public static final String DB_PHONENUMBER = "phonenumber.db";
 

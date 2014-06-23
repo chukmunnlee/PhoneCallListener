@@ -31,21 +31,12 @@ public class OutgoingCallBroadcastReceiver extends BroadcastReceiver {
         if (result.isEmpty())
             return;
 
-        PhoneNumber pn = result.get(0);
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("Do not call")
-                .setMessage(pn.getNotes())
-                .setPositiveButton("Call", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        setResultData(phone);
-                    }
-                })
-                .setNegativeButton("Later", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        setResultData("");
-                    }
-                });
+        Intent callHandlerIntent = new Intent(context, PhoneCallHandlerActivity.class);
+        callHandlerIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_NEW_TASK);
+        callHandlerIntent.putExtra(VALUE_PHONENUMBER, result.get(0));
+
+        context.startActivity(callHandlerIntent);
+
+        Log.d(TAG, "----> after = " + callHandlerIntent.getBooleanExtra(VALUE_RESULT, false));
     }
 }
