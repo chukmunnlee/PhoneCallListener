@@ -1,10 +1,13 @@
 package at.oneminutedistraction.phonecalllistener;
 
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
 
+import java.util.List;
 import java.util.concurrent.Semaphore;
 
 import static at.oneminutedistraction.phonecalllistener.Constants.*;
@@ -20,21 +23,29 @@ public class OutgoingCallBroadcastReceiver extends BroadcastReceiver {
 
         final String phone = intent.getStringExtra(Intent.EXTRA_PHONE_NUMBER);
 
-        Log.d(TAG, "Phonenumber: " + phone);
+        Log.d(TAG, "Outgoing call: " + phone);
 
-        Intent phoneIntent = new Intent(context, PhoneCallHandlerActivity.class);
-        phoneIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-        context.startActivity(phoneIntent);
-        /*
-        Semaphore sem = new Semaphore(1);
-        phoneIntent.putExtra(PARAMS_SEMAPHORE, sem);
+        PhoneNumberDatabase database = new PhoneNumberDatabase(context);
+        List<PhoneNumber> result = database.getByPhoneNumber(phone);
 
-        try {
-            sem.acquire();
-        } catch (InterruptedException e) {
-            Log.e(TAG, "sem.acquire()", e);
-        } */
+        if (result.isEmpty())
+            return;
 
-
+        PhoneNumber pn = result.get(0);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Do not call")
+                .setMessage(pn.getNotes())
+                .setPositiveButton("Call", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        setResultData(phone);
+                    }
+                })
+                .setNegativeButton("Later", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        setResultData("");
+                    }
+                });
     }
 }

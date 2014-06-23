@@ -49,10 +49,23 @@ public class PhoneCallHandlerPlugin extends CordovaPlugin {
         else if (METHOD_GET_ALL_NUMBERS.equals(action))
             getAllNumbers(callbackContext);
 
+        else if (METHOD_IS_REGISTERED.equals(action))
+            checkIfRegistered(args, callbackContext);
+
         else
             result = false;
 
         return (result);
+    }
+
+    private void checkIfRegistered(JSONArray args, CallbackContext callbackContext) {
+
+        try {
+            callbackContext.success(Boolean.toString(phoneNumberDatabase.isRegistered(args.getString(0))));
+        } catch (JSONException ex) {
+            Log.e(TAG, "checkIfRegistered", ex);
+            callbackContext.error(ex.getMessage());
+        }
     }
 
     private void getAllNumbers(CallbackContext callbackContext) {
@@ -78,10 +91,11 @@ public class PhoneCallHandlerPlugin extends CordovaPlugin {
         String telno;
         try {
             JSONObject obj = args.getJSONObject(0);
+            boolean overwrite = obj.has(VALUE_OVERWRITE)? obj.getBoolean(VALUE_OVERWRITE): true;
             telno = obj.getString(SQL_COLUMN_PHONENUMBER);
             phoneNumberDatabase.addPhoneNumber(obj.getString(SQL_COLUMN_ID),
                     telno,
-                    obj.getString(SQL_COLUMN_NOTES), true);
+                    obj.getString(SQL_COLUMN_NOTES), overwrite);
             Log.i(TAG, "Added " + telno);
         } catch (JSONException ex) {
             Log.e(TAG, "addPhoneNumber", ex);
