@@ -6,12 +6,12 @@ PhoneCallListener.prototype.addPhoneNumber = function(val, success, failure) {
 		failure = function() { };
 
 	if (!PhoneCallListener._isFunction(success)) {
-		console.log("phoneCallListener.addPhoneNumber: isEnabled callback must be a function");
+		console.log("phoneCallListener.addPhoneNumber: addPhoneNumber callback must be a function");
 		return;
 	}
 
 	if (!PhoneCallListener._isFunction(failure)) {
-		console.log("phoneCallListener.addPhoneNumber: isEnabled callback must be a function");
+		console.log("phoneCallListener.addPhoneNumber: addPhoneNumber callback must be a function");
 		return;
 	}
 
