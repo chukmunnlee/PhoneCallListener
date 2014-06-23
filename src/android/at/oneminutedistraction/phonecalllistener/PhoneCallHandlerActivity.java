@@ -20,6 +20,5 @@ public class PhoneCallHandlerActivity extends Activity {
 
     @Override
     protected void onNewIntent(Intent intent) {
-        Log.i(TAG, "Relaunching: " + this + ", " + PhoneCallHandlerPlugin.getInstance());
     }
 }

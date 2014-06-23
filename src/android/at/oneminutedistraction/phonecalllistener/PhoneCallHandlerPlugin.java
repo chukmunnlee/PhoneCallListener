@@ -11,20 +11,22 @@ import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CordovaWebView;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.List;
 
 import static at.oneminutedistraction.phonecalllistener.Constants.*;
 
 
 public class PhoneCallHandlerPlugin extends CordovaPlugin {
 
-    private static PhoneCallHandlerPlugin plugin = null;
+    private PhoneNumberDatabase phoneNumberDatabase = null;
 
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
 
-        //Initialization goes here
-        plugin = this;
+        phoneNumberDatabase = new PhoneNumberDatabase(getContext());
     }
 
     private Context getContext() {
@@ -38,11 +40,14 @@ public class PhoneCallHandlerPlugin extends CordovaPlugin {
 
         boolean result = true;
 
-        if (METHOD_IS_ENABLED.equals(action))
-            isRegistered(callbackContext);
+        if (METHOD_ADD_PHONENUMBER.equals(action))
+            addPhoneNumber(args, callbackContext);
 
-        if (METHOD_ENABLE_CALL_INTERCEPT.equals(action))
-            setRegister(args.getBoolean(0), callbackContext);
+        else if (METHOD_REMOVE_PHONENUMBER.equals(action))
+            removePhoneNumber(args, callbackContext);
+
+        else if (METHOD_GET_ALL_NUMBERS.equals(action))
+            getAllNumbers(callbackContext);
 
         else
             result = false;
@@ -50,41 +55,60 @@ public class PhoneCallHandlerPlugin extends CordovaPlugin {
         return (result);
     }
 
-    private void setRegister(boolean e, CallbackContext callbackContext) {
-        Context ctx = getContext();
-        OutgoingCallBroadcastReceiver receiver = new OutgoingCallBroadcastReceiver();
-
-        if (e)
-            try {
-                ctx.registerReceiver(receiver, IntentFilter.create(Intent.ACTION_NEW_OUTGOING_CALL, String.class.getName()));
-            } catch (Throwable t) {
-                //Fail quietly
-                Log.i(TAG, "Receiver re-registered");
+    private void getAllNumbers(CallbackContext callbackContext) {
+        List<PhoneNumber> numbers = phoneNumberDatabase.getAll();
+        try {
+            JSONArray result = new JSONArray();
+            for (PhoneNumber pn : numbers) {
+                JSONObject obj = new JSONObject();
+                obj.put(SQL_COLUMN_ID, pn.getId());
+                obj.put(SQL_COLUMN_PHONENUMBER, pn.getPhoneNumber());
+                obj.put(SQL_COLUMN_NOTES, pn.getNotes());
+                result.put(obj);
             }
-        else
-            try {
-                ctx.unregisterReceiver(receiver);
-            } catch (Throwable t) {
-                Log.i(TAG, "Receiver unregistered");
-            }
-        callbackContext.success(VALUE_TRUE);
+            callbackContext.success(result);
+            Log.i(TAG, "Returned " + numbers.size() + " numbers");
+        } catch (JSONException ex) {
+            Log.e(TAG, "getAllNumbers", ex);
+            callbackContext.error(ex.getMessage());
+        }
     }
 
-    private void isRegistered(CallbackContext callbackContext) {
-        Context ctx = getContext();
-        OutgoingCallBroadcastReceiver receiver = new OutgoingCallBroadcastReceiver();
+    private void addPhoneNumber(JSONArray args, CallbackContext callbackContext) {
+        String telno;
         try {
-            getContext().registerReceiver(receiver
-                    , IntentFilter.create(Intent.ACTION_NEW_OUTGOING_CALL, String.class.getName()));
-        } catch (Throwable t) {
-            callbackContext.success(VALUE_TRUE);
+            JSONObject obj = args.getJSONObject(0);
+            telno = obj.getString(SQL_COLUMN_PHONENUMBER);
+            phoneNumberDatabase.addPhoneNumber(obj.getString(SQL_COLUMN_ID),
+                    telno,
+                    obj.getString(SQL_COLUMN_NOTES), true);
+            Log.i(TAG, "Added " + telno);
+        } catch (JSONException ex) {
+            Log.e(TAG, "addPhoneNumber", ex);
+            callbackContext.error(ex.getMessage());
             return;
         }
-        getContext().unregisterReceiver(receiver);
-        callbackContext.success(VALUE_FALSE);
+
+        callbackContext.success("Registered " + telno);
     }
 
-    public static PhoneCallHandlerPlugin getInstance() {
-        return (plugin);
+    private void removePhoneNumber(JSONArray args, CallbackContext callbackContext) {
+        PhoneNumber phoneNumber;
+        try {
+            JSONObject obj = args.getJSONObject(0);
+            phoneNumber = phoneNumberDatabase.removePhoneNumber(obj.getString(SQL_COLUMN_ID));
+            if (null == phoneNumber) {
+                Log.w(TAG, "Not registered " + id);
+                callbackContext.error(id + " is not registered");
+                return;
+            }
+            Log.i(TAG, "Removed " + phoneNumber.getPhoneNumber());
+        } catch (JSONException ex) {
+            Log.e(TAG, "removePhoneNumber", ex);
+            callbackContext.error(ex.getMessage());
+            return;
+        }
+
+        callbackContext.success("Removed " + phoneNumber.getPhoneNumber());
     }
 }
