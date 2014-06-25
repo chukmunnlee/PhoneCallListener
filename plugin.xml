@@ -41,7 +41,8 @@
 					<action android:name="android.intent.action.NEW_OUTGOING_CALL"/>
 				</intent-filter>
 			</receiver>
-			<activity android:name="at.oneminutedistraction.phonecalllistener.PhoneCallHandlerActivity" />
+			<activity android:name="at.oneminutedistraction.phonecalllistener.PhoneCallHandlerActivity" 
+					android:launchMode="singleTask" android:exported="true"/>
 
 		</config-file>
 
@@ -59,10 +60,6 @@
 				target-dir="src/at/oneminutedistraction/phonecalllistener"/> 
 		<source-file src="src/android/at/oneminutedistraction/phonecalllistener/PhoneNumberTrackerOpenHelper.java" 
 				target-dir="src/at/oneminutedistraction/phonecalllistener"/> 
-<!--
-		<source-file src="src/android/at/oneminutedistraction/phonecalllistener/XXXX.java" 
-				target-dir="src/android/at/oneminutedistraction/phonecalllistener"/> 
--->
 
 	</platform>
 
