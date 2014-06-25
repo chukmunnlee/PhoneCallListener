@@ -22,11 +22,15 @@ public class PhoneCallHandlerPlugin extends CordovaPlugin {
 
     private PhoneNumberDatabase phoneNumberDatabase = null;
 
+	private static PhoneCallHandlerPlugin plugin = null;
+
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
 
         phoneNumberDatabase = new PhoneNumberDatabase(getContext());
+
+		plugin = this;
     }
 
     private Context getContext() {
@@ -125,4 +129,8 @@ public class PhoneCallHandlerPlugin extends CordovaPlugin {
 
         callbackContext.success("Removed " + phoneNumber.getPhoneNumber());
     }
+
+	public static PhoneCallHandlerPlugin getInstance() {
+		return (this);
+	}
 }

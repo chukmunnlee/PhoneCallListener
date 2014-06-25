@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
+import android.net.Uri;
 
 import android.widget.*;
 
@@ -23,29 +24,21 @@ public class PhoneCallHandlerActivity extends Activity {
 
         Log.i(TAG, "Creating " + this.getClass().getName());
 
-		setContentView(new LinearLayout(getApplicationContext()));
-
         PhoneNumber pn = (PhoneNumber)getIntent().getExtras().getSerializable(VALUE_PHONENUMBER);
-        AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Do not call")
                 .setMessage(pn.getNotes())
                 .setPositiveButton("Call", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        getIntent().putExtra(VALUE_RESULT, true);
+						Intent callIntent = new Intent(Intent.ACTION.CALL);
+						callIntent.setData(Uri.parse("tel:" + pn.getPhoneNumber()));
+						startActivity(callIntent);
                     }
                 })
-                .setNegativeButton("Later", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        getIntent().putExtra(VALUE_RESULT, false);
-                    }
-                });
+                .setNegativeButton("Later", null);
         builder.show();
-    }
-
-    public boolean isResult() {
-        return (result);
+		finish();
     }
 
     @Override

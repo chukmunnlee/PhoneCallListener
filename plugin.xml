@@ -33,6 +33,7 @@
 		<config-file target="AndroidManifest.xml" parent="/manifest">
 			<!-- Permission to process outgoing call -->
 			<uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+			<uses-permission android:name="android.permission.CALL_PHONE"/>
 		</config-file>
 
 		<config-file target="AndroidManifest.xml" parent="/manifest/application">

@@ -37,6 +37,7 @@ public class OutgoingCallBroadcastReceiver extends BroadcastReceiver {
 
         context.startActivity(callHandlerIntent);
 
-        Log.d(TAG, "----> after = " + callHandlerIntent.getBooleanExtra(VALUE_RESULT, false));
+		//Do not make the call first
+		setResultData("");
     }
 }
