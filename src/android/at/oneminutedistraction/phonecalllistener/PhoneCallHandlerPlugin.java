@@ -131,6 +131,6 @@ public class PhoneCallHandlerPlugin extends CordovaPlugin {
     }
 
 	public static PhoneCallHandlerPlugin getInstance() {
-		return (this);
+		return (plugin);
 	}
 }

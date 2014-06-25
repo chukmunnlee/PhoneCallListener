@@ -16,29 +16,32 @@ import static at.oneminutedistraction.phonecalllistener.Constants.*;
 
 public class PhoneCallHandlerActivity extends Activity {
 
-    private boolean result = false;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         Log.i(TAG, "Creating " + this.getClass().getName());
 
-        PhoneNumber pn = (PhoneNumber)getIntent().getExtras().getSerializable(VALUE_PHONENUMBER);
+        final PhoneNumber pn = (PhoneNumber)getIntent().getExtras().getSerializable(VALUE_PHONENUMBER);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Do not call")
                 .setMessage(pn.getNotes())
                 .setPositiveButton("Call", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-						Intent callIntent = new Intent(Intent.ACTION.CALL);
-						callIntent.setData(Uri.parse("tel:" + pn.getPhoneNumber()));
+						Intent callIntent = new Intent(Intent.ACTION_CALL);
+						callIntent.setData(Uri.parse("tel:" + pn.getPhoneNumber() + VALUE_SUFFIX));
 						startActivity(callIntent);
+						finish();
                     }
                 })
-                .setNegativeButton("Later", null);
+                .setNegativeButton("Later", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+						finish();
+					}
+				});
         builder.show();
-		finish();
     }
 
     @Override
