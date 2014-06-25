@@ -41,8 +41,7 @@
 					<action android:name="android.intent.action.NEW_OUTGOING_CALL"/>
 				</intent-filter>
 			</receiver>
-			<activity android:name="at.oneminutedistraction.phonecalllistener.PhoneCallHandlerActivity" 
-					android:launchMode="singleTask" />
+			<activity android:name="at.oneminutedistraction.phonecalllistener.PhoneCallHandlerActivity" />
 
 		</config-file>
 

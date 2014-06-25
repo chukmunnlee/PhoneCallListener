@@ -7,8 +7,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+
+import android.widget.*;
 
 import static at.oneminutedistraction.phonecalllistener.Constants.*;
 
@@ -22,6 +22,8 @@ public class PhoneCallHandlerActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         Log.i(TAG, "Creating " + this.getClass().getName());
+
+		setContentView(new LinearLayout(getApplicationContext()));
 
         PhoneNumber pn = (PhoneNumber)getIntent().getExtras().getSerializable(VALUE_PHONENUMBER);
         AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
